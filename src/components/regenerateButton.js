@@ -1,5 +1,6 @@
 import $ from 'jquery'
 import {generateCompanyTable} from '../lib/generateCompanyTable'
+import {initCompanies} from '../lib/initCompanies'
 
 export const regenerateButton = () => {
   $('#regenerate-companies').click(() => {
@@ -10,6 +11,6 @@ export const regenerateButton = () => {
       return false
     }
 
-    generateCompanyTable(true)
+    generateCompanyTable(true, initCompanies)
   })
 }

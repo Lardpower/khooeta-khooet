@@ -2,15 +2,21 @@ import {models} from './models'
 import {companyIndustries} from './lib/companyIndustries'
 import {getRandomInt} from './lib/getRandomInt'
 
-
 export function dataGenerator(companies) {
-  _.each(companies, c => {
-    let companyAttrs = { ...c }
+  const generatedCompanies = []
 
-    // set random company ID
-    if (typeof c.id === 'undefined'){
-      companyAttrs.id = new Date().getUTCMilliseconds() + getRandomInt(1, 100000)
+  _.each(companies, c => {
+
+    // console.log('RAW COMPANY', c)
+
+    let companyAttrs = {
+      ...c,
+      // set random ID of the company
+      id: typeof c.id !== 'undefined'
+          ? c.id : new Date().getUTCMilliseconds() + getRandomInt(1, 100000),
     }
+
+    // console.log('COMPANY ATTRS', companyAttrs);
 
     // set random name of the company
     if (typeof c.name === 'undefined') {
@@ -38,6 +44,8 @@ export function dataGenerator(companies) {
     // set the number of users that will be created
     companyAttrs.userCount = getRandomInt(1, 15)
 
+    generatedCompanies.push(companyAttrs)
+
     models.company.create(companyAttrs)
 
     const companyUsers = []
@@ -53,9 +61,11 @@ export function dataGenerator(companies) {
       models.user.create(companyUsers[companyUsers.length - 1])
     })
 
-    console.group(companyAttrs.name)
-    console.info('Company', companyAttrs)
-    console.info('Users', companyUsers)
-    console.groupEnd()
+    // console.group(companyAttrs.name)
+    // console.info('Company', companyAttrs)
+    // console.info('Users', companyUsers)
+    // console.groupEnd()
   })
+
+  return generatedCompanies
 }
