@@ -50,7 +50,7 @@ export const runSimulation = () => {
 
     rebuildCompanyTable()
 
-  }, 1000)
+  }, 3000)
 
   return timerId
 }
