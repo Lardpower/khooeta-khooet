@@ -38,9 +38,14 @@ export function dataGenerator() {
       )]
     }
 
+    // set the number of users that will be created
+    companyAttrs.userCount = getRandomInt(1, 15)
+
+    models.company.create(companyAttrs)
+
     const companyUsers = []
     // attach 1-15 users to the company
-    Array.from({ length: getRandomInt(1, 15) }).forEach(() => {
+    Array.from({ length: companyAttrs.userCount }).forEach(() => {
       companyUsers.push({
         id: new Date().getUTCMilliseconds() + getRandomInt(1, 1000),
         companyId: companyAttrs.id,
@@ -50,11 +55,6 @@ export function dataGenerator() {
 
       models.user.create(companyUsers[companyUsers.length - 1])
     })
-
-    // set an actual number of created users of that company
-    companyAttrs.userCount = companyUsers.length
-
-    models.company.create(companyUsers)
 
     console.group(companyAttrs.name)
     console.info('Company', companyAttrs)
