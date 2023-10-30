@@ -31,21 +31,21 @@ export const runSimulation = () => {
         // consider this client as lost
         models.company.delete(c.id)
       }
-
-      // mark some clients as active (step 6)
-      models.user.list().filter((u) => u.companyId === c.id).forEach((u) => {
-        if (Math.random() <= 0.5){
-          const currentUsers = models.user.list();
-          for(let i = 0; i <= currentUsers.length; i++){
-            if (currentUsers[i].id === u.id){
-              currentUsers[i].lastActive = new Date();
-            }
-          }
-
-          // update current users
-          models.user.update(currentUsers)
-        }
-      })
+      //
+      // // mark some clients as active (step 6)
+      // models.user.list().filter((u) => u.companyId === c.id).forEach((u) => {
+      //   if (Math.random() <= 0.5){
+      //     const currentUsers = models.user.list();
+      //     for(let i = 0; i <= currentUsers.length; i++){
+      //       if (currentUsers[i].id === u.id){
+      //         currentUsers[i].lastActive = new Date();
+      //       }
+      //     }
+      //
+      //     // update current users
+      //     models.user.update(currentUsers)
+      //   }
+      // })
     })
 
     rebuildCompanyTable()
