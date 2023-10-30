@@ -44,7 +44,7 @@ export class GenericModel {
   }
 
   delete(id){
-    storage.removeItem(`${this.name}.${payload.id}`);
+    storage.removeItem(`${this.name}.${id}`);
   }
 
 }
