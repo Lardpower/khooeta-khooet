@@ -43,8 +43,6 @@ export function dataGenerator() {
       )]
     }
 
-    console.log('generated', companyAttrs);
-
     models.company.create(companyAttrs)
   })
 }

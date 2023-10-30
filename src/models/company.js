@@ -4,7 +4,7 @@ const properties = [
   { id: 'id', name: 'Id', type: 'number', required: true },
   { id: 'name', name: 'Name', type: 'string', required: true },
   { id: 'value', name: 'Value', type: 'number' },
-  { id: 'h', name: 'health', type: 'number' },
+  { id: 'h', name: 'Health', type: 'number' },
   { id: 'userCount', name: 'User count', type: 'number' },
   { id: 'industry', name: 'Industry', type: 'string' },
   { id: 'dateCreated', name: 'Created', type: 'date' },
