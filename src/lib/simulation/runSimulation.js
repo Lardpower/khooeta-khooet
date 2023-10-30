@@ -4,6 +4,16 @@ import {models} from '../../models'
 import {table} from '../../components'
 import {generateCompanyTable} from '../generateCompanyTable'
 
+const rebuildCompanyTable = () => {
+  generateCompanyTable(false)
+
+  const tableContainer = document.getElementById('table-container')
+
+  const companies = models.company.list()
+  tableContainer.innerHTML = ''
+  tableContainer.appendChild(table(companies))
+}
+
 export const runSimulation = () => {
   const timerId = setInterval(() => {
 
@@ -14,14 +24,16 @@ export const runSimulation = () => {
         Array.from({ length: newCompaniesNum }, () => ({})),
     )
 
-    generateCompanyTable(false)
+    // exclude some "lost" customers with health score <= 5
+    models.company.list().forEach((c) => {
+      // chance of losing this customer
+      if (Math.random() <= (c.h <= 5 ? 0.3 : 0.05)){
+        // consider this client as lost
+        models.company.delete(c.id)
+      }
+    })
 
-    const tableContainer = document.getElementById('table-container')
-
-    const companies = models.company.list()
-    tableContainer.innerHTML = ''
-    tableContainer.appendChild(table(companies))
-
+    rebuildCompanyTable()
 
   }, 1000)
 
