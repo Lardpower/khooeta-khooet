@@ -1,20 +1,26 @@
 import {models} from './models'
 import {companyIndustries} from './lib/companyIndustries'
 import {getRandomInt} from './lib/getRandomInt'
-import {initCompanies} from './lib/initCompanies'
-
-/**
- * Generate random int between min and max (both inclusive)
- *
- * @param max
- * @param min
- * @return number
- */
 
 
 export function dataGenerator(companies) {
   _.each(companies, c => {
     let companyAttrs = { ...c }
+
+    // set random company ID
+    if (typeof c.id === 'undefined'){
+      companyAttrs.id = new Date().getUTCMilliseconds() + getRandomInt(1, 100000)
+    }
+
+    // set random name of the company
+    if (typeof c.name === 'undefined') {
+      companyAttrs.name = 'Company ' + companyAttrs.id
+    }
+
+    // set random health of the company
+    if (typeof c.h === 'undefined') {
+      companyAttrs.h = getRandomInt(1, 10)
+    }
 
     // set company's value for ~80% of all generated companies
     if (Math.random() <= 0.8) {
@@ -38,7 +44,7 @@ export function dataGenerator(companies) {
     // attach 1-15 users to the company
     Array.from({ length: companyAttrs.userCount }).forEach(() => {
       companyUsers.push({
-        id: new Date().getUTCMilliseconds() + getRandomInt(1, 1000),
+        id: new Date().getUTCMilliseconds() + getRandomInt(1, 100000),
         companyId: companyAttrs.id,
         createdDate: new Date(),
         lastActive: new Date(),
