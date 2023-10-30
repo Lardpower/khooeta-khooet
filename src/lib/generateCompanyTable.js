@@ -1,10 +1,11 @@
 import {dataGenerator} from '../dataGenerator'
 import {models} from '../models'
 import {table} from '../components'
+import {initCompanies} from './initCompanies'
 
 export const generateCompanyTable = (wipeExistingData) => {
   const tableContainer = document.getElementById('table-container')
-  dataGenerator()
+  dataGenerator(initCompanies)
   const companies = models.company.list()
   if (wipeExistingData) {
     const storage = window.localStorage

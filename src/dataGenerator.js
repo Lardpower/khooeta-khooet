@@ -1,6 +1,7 @@
 import {models} from './models'
 import {companyIndustries} from './lib/companyIndustries'
 import {getRandomInt} from './lib/getRandomInt'
+import {initCompanies} from './lib/initCompanies'
 
 /**
  * Generate random int between min and max (both inclusive)
@@ -11,18 +12,8 @@ import {getRandomInt} from './lib/getRandomInt'
  */
 
 
-const initCompanies = [
-  { id: 1, name: 'Amazon', h: 4 },
-  { id: 2, name: 'Google', h: 5 },
-  { id: 3, name: 'Spotify', h: 10 },
-  { id: 4, name: 'Klarna', h: 3 },
-  { id: 5, name: 'Uber', h: 5 },
-  { id: 6, name: 'Microsoft', h: 7 },
-  { id: 6, name: 'Netflix', h: 3 },
-]
-
-export function dataGenerator() {
-  _.each(initCompanies, c => {
+export function dataGenerator(companies) {
+  _.each(companies, c => {
     let companyAttrs = { ...c }
 
     // set company's value for ~80% of all generated companies
