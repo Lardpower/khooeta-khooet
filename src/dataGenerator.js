@@ -32,20 +32,13 @@ export function dataGenerator() {
 
     // set company's user count for ~80% of all generated companies
     if (Math.random() <= 0.8) {
-      companyAttrs.userCount = getRandomInt(1, 15)
-    }
-
-    // set company's user count for ~80% of all generated companies
-    if (Math.random() <= 0.8) {
       // get random industry
       companyAttrs.industry = companyIndustries[Math.floor(
           Math.random() * companyIndustries.length,
       )]
     }
 
-    models.company.create(companyAttrs)
-
-    const companyUsers = [];
+    const companyUsers = []
     // attach 1-15 users to the company
     Array.from({ length: getRandomInt(1, 15) }).forEach(() => {
       companyUsers.push({
@@ -57,6 +50,11 @@ export function dataGenerator() {
 
       models.user.create(companyUsers[companyUsers.length - 1])
     })
+
+    // set an actual number of created users of that company
+    companyAttrs.userCount = companyUsers.length
+
+    models.company.create(companyUsers)
 
     console.group(companyAttrs.name)
     console.info('Company', companyAttrs)
