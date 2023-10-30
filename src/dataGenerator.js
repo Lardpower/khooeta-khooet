@@ -2,28 +2,31 @@ import {models} from './models'
 import {companyIndustries} from './lib/companyIndustries'
 import {getRandomInt} from './lib/getRandomInt'
 
-/**
- * Generate random int between min and max (both inclusive)
- *
- * @param max
- * @param min
- * @return number
- */
+export function dataGenerator(companies) {
+  const generatedCompanies = []
 
+  _.each(companies, c => {
 
-const initCompanies = [
-  { id: 1, name: 'Amazon', h: 4 },
-  { id: 2, name: 'Google', h: 5 },
-  { id: 3, name: 'Spotify', h: 10 },
-  { id: 4, name: 'Klarna', h: 3 },
-  { id: 5, name: 'Uber', h: 5 },
-  { id: 6, name: 'Microsoft', h: 7 },
-  { id: 6, name: 'Netflix', h: 3 },
-]
+    // console.log('RAW COMPANY', c)
 
-export function dataGenerator() {
-  _.each(initCompanies, c => {
-    let companyAttrs = { ...c }
+    let companyAttrs = {
+      ...c,
+      // set random ID of the company
+      id: typeof c.id !== 'undefined'
+          ? c.id : new Date().getUTCMilliseconds() + getRandomInt(1, 100000),
+    }
+
+    // console.log('COMPANY ATTRS', companyAttrs);
+
+    // set random name of the company
+    if (typeof c.name === 'undefined') {
+      companyAttrs.name = 'Company ' + companyAttrs.id
+    }
+
+    // set random health of the company
+    if (typeof c.h === 'undefined') {
+      companyAttrs.h = getRandomInt(1, 10)
+    }
 
     // set company's value for ~80% of all generated companies
     if (Math.random() <= 0.8) {
@@ -41,13 +44,15 @@ export function dataGenerator() {
     // set the number of users that will be created
     companyAttrs.userCount = getRandomInt(1, 15)
 
+    generatedCompanies.push(companyAttrs)
+
     models.company.create(companyAttrs)
 
     const companyUsers = []
     // attach 1-15 users to the company
     Array.from({ length: companyAttrs.userCount }).forEach(() => {
       companyUsers.push({
-        id: new Date().getUTCMilliseconds() + getRandomInt(1, 1000),
+        id: new Date().getUTCMilliseconds() + getRandomInt(1, 100000),
         companyId: companyAttrs.id,
         createdDate: new Date(),
         lastActive: new Date(),
@@ -56,9 +61,11 @@ export function dataGenerator() {
       models.user.create(companyUsers[companyUsers.length - 1])
     })
 
-    console.group(companyAttrs.name)
-    console.info('Company', companyAttrs)
-    console.info('Users', companyUsers)
-    console.groupEnd()
+    // console.group(companyAttrs.name)
+    // console.info('Company', companyAttrs)
+    // console.info('Users', companyUsers)
+    // console.groupEnd()
   })
+
+  return generatedCompanies
 }
