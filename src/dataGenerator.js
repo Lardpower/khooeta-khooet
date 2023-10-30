@@ -44,5 +44,23 @@ export function dataGenerator() {
     }
 
     models.company.create(companyAttrs)
+
+    const companyUsers = [];
+    // attach 1-15 users to the company
+    Array.from({ length: getRandomInt(1, 15) }).forEach(() => {
+      companyUsers.push({
+        id: new Date().getUTCMilliseconds() + getRandomInt(1, 1000),
+        companyId: companyAttrs.id,
+        createdDate: new Date(),
+        lastActive: new Date(),
+      })
+
+      models.user.create(companyUsers[companyUsers.length - 1])
+    })
+
+    console.group(companyAttrs.name)
+    console.info('Company', companyAttrs)
+    console.info('Users', companyUsers)
+    console.groupEnd()
   })
 }
