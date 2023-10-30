@@ -17,8 +17,14 @@ export class GenericModel {
   create(payload){
     this.preCreate(payload)
     const items = JSON.parse(storage.getItem(this.name)) || [];
-    items.push(payload);
-    storage.setItem(`${this.name}`, JSON.stringify(items));
+
+    // push a new item only if its ID is unique across existing ${items}
+    if (!items.map((i) => i.id).includes(payload.id)) {
+      items.push(payload);
+      storage.setItem(`${this.name}`, JSON.stringify(items));
+    } else {
+      console.info('duplicate item', payload);
+    }
   }
 
   preUpdate(payload){
