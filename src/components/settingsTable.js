@@ -34,8 +34,5 @@ export const settingsTable = ()  => {
     toggleVisibility(fields)
   })
 
-  // show/hide cols based on the settings
-  fields.forEach((f) => {
-    toggleVisibility(fields)
-  })
+  toggleVisibility(fields)
 }

@@ -22,8 +22,6 @@ export class GenericModel {
     if (!items.map((i) => i.id).includes(payload.id)) {
       items.push(payload);
       storage.setItem(`${this.name}`, JSON.stringify(items));
-    } else {
-      console.info('duplicate item', payload);
     }
   }
 

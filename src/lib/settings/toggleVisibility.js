@@ -6,10 +6,11 @@ export const toggleVisibility = (fields) => {
 
   // show/hide cols based on the settings
   fields.forEach((f) => {
+    const isVisible = typeof settings[f.id] === 'undefined' || settings[f.id];
     $('#table-container table thead td#header-' + f.id).
-        css('display', settings[f.id] ? 'inherit' : 'none')
+        css('display', isVisible ? 'inherit' : 'none')
 
     $('#table-container table tbody td[field="' + f.id + '"]').
-        css('display', settings[f.id] ? 'inherit' : 'none')
+        css('display', isVisible? 'inherit' : 'none')
   })
 }

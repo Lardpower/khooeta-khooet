@@ -14,4 +14,19 @@ tableContainer.appendChild(table(companies))
 $(document).ready(function() {
   // place the settings table and all related event handlers
   settingsTable()
+
+  $('#regenerate-companies').click(() => {
+    if (!confirm('Do you really want to regenerate all the companies and users?')){
+      return false;
+    }
+
+    const storage = window.localStorage;
+    storage.removeItem('Company')
+    storage.removeItem('User')
+
+    dataGenerator()
+    const companies = models.company.list()
+    tableContainer.innerHTML = ""
+    tableContainer.appendChild(table(companies))
+  })
 })
